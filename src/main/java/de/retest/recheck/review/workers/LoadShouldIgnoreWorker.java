@@ -11,15 +11,15 @@ import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
-import de.retest.recheck.review.counter.Counter;
+import de.retest.recheck.review.HasUnsafedChangesListener;
 import de.retest.recheck.review.ignore.io.Loaders;
 
 public class LoadShouldIgnoreWorker {
 
-	private final Counter counter;
+	private final HasUnsafedChangesListener listener;
 
-	public LoadShouldIgnoreWorker( final Counter counter ) {
-		this.counter = counter;
+	public LoadShouldIgnoreWorker( final HasUnsafedChangesListener listener ) {
+		this.listener = listener;
 	}
 
 	public GlobalIgnoreApplier load() throws IOException {
@@ -30,14 +30,10 @@ public class LoadShouldIgnoreWorker {
 				.filter( ShouldIgnore.class::isInstance ) //
 				.map( ShouldIgnore.class::cast ) //
 				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
-		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
+		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( listener, ignoreApplier );
 
 		RecheckIgnoreUtil.getIgnoreRuleFile().ifPresent( file -> result.add( new JSShouldIgnoreImpl( file ) ) );
 
 		return result;
-	}
-
-	public Counter getCounter() {
-		return counter;
 	}
 }
