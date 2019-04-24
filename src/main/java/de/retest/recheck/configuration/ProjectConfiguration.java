@@ -86,7 +86,7 @@ public class ProjectConfiguration {
 			try {
 				Files.createDirectories( configFolder );
 			} catch ( final IOException e ) {
-				logger.error( "Error creating empty recheck configuration in {}.", configFolder );
+				logger.error( "Error creating empty filter folder in {}.", configFolder );
 			}
 		}
 	}
