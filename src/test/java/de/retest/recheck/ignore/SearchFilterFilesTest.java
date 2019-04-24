@@ -13,6 +13,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import de.retest.recheck.util.junit.jupiter.SystemProperty;
+
 class SearchFilterFilesTest {
 
 	@Test
@@ -23,6 +25,7 @@ class SearchFilterFilesTest {
 	}
 
 	@Test
+	@SystemProperty( key = RETEST_PROJECT_ROOT )
 	void getProjectFilterFiles_should_only_get_filter_files( @TempDir final Path temp ) throws Exception {
 		final Path configFolder = temp.resolve( RETEST_PROJECT_ROOT );
 		Files.createDirectory( configFolder );
@@ -30,11 +33,11 @@ class SearchFilterFilesTest {
 		Files.createDirectory( retestFolder );
 		final Path filterFolder = retestFolder.resolve( FILTER_FOLDER );
 		Files.createDirectory( filterFolder );
-		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 
 		Files.createTempFile( filterFolder, "random", ".ignore" ).toFile();
 		final File colorFilter = Files.createTempFile( filterFolder, "color", ".filter" ).toFile();
 		final File webFontFilter = Files.createTempFile( filterFolder, "web-font", ".filter" ).toFile();
+		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 
 		final List<File> projectFilterFiles = SearchFilterFiles.getProjectFilterFiles();
 		assertThat( projectFilterFiles ).allMatch( file -> file.toString().endsWith( ".filter" ) );
