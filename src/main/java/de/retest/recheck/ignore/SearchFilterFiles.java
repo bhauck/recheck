@@ -38,6 +38,9 @@ public class SearchFilterFiles {
 	}
 
 	public static List<File> getProjectFilterFiles() {
+		if ( !resolveFilterPath().toFile().exists() ) {
+			ProjectConfiguration.getInstance().ensureProjectConfigurationInitialized();
+		}
 		try ( Stream<Path> paths = Files.walk( resolveFilterPath() ) ) {
 			return paths.filter( Files::isRegularFile ) //
 					.filter( file -> file.toString().endsWith( ".filter" ) ) //
