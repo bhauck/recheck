@@ -5,8 +5,8 @@ import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -49,7 +49,7 @@ public class SearchFilterFiles {
 		} catch ( final Exception e ) {
 			log.info( "You can create your own filter files in the " + File.separator + ".retest" + File.separator
 					+ "filter folder" );
-			return new ArrayList<>();
+			return Collections.emptyList();
 		}
 	}
 }
