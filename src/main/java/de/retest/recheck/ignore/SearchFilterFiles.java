@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SearchFilterFiles {
 
+	private static final String FILES_ENDING = ".filter";
 	private static final String BASIC_FILTER_DIR = "/filter/";
 	private static final String WEB_FILTER_DIR = BASIC_FILTER_DIR + "web/";
 	private static final List<String> defaultWebFilter =
@@ -43,7 +44,7 @@ public class SearchFilterFiles {
 		}
 		try ( Stream<Path> paths = Files.walk( resolveFilterPath() ) ) {
 			return paths.filter( Files::isRegularFile ) //
-					.filter( file -> file.toString().endsWith( ".filter" ) ) //
+					.filter( file -> file.toString().endsWith( FILES_ENDING ) ) //
 					.map( Path::toFile ) //
 					.collect( Collectors.toList() ); //
 		} catch ( final Exception e ) {
