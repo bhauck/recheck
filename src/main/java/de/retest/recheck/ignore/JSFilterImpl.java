@@ -59,6 +59,12 @@ public class JSFilterImpl implements Filter {
 				|| callBooleanJSFunction( "shouldIgnoreAttributeDifference", element, attributeDifference );
 	}
 
+	@Override
+	public boolean matches( final AttributeDifference attributeDifference ) {
+		return callBooleanJSFunction( "matches", attributeDifference )
+				|| callBooleanJSFunction( "shouldIgnoreAttributeDifference", attributeDifference );
+	}
+
 	private boolean callBooleanJSFunction( final String functionName, final Object... args ) {
 		if ( errorFunctions.contains( functionName ) ) {
 			return false;
@@ -86,4 +92,5 @@ public class JSFilterImpl implements Filter {
 		}
 		return false;
 	}
+
 }

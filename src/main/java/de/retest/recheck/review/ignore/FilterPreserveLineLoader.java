@@ -28,8 +28,12 @@ public class FilterPreserveLineLoader implements Loader<FilterPreserveLine> {
 		}
 
 		@Override
-		public boolean matches( final Element element,
-				final AttributeDifference attributeDifference ) {
+		public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
+			return false;
+		}
+
+		@Override
+		public boolean matches( final AttributeDifference attributeDifference ) {
 			return false;
 		}
 

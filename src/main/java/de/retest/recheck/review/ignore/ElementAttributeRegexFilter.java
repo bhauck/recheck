@@ -32,6 +32,11 @@ public class ElementAttributeRegexFilter implements Filter {
 	}
 
 	@Override
+	public boolean matches( final AttributeDifference attributeDifference ) {
+		return attributePattern.matcher( attributeDifference.getKey() ).matches();
+	}
+
+	@Override
 	public String toString() {
 		return String.format( ElementAttributeRegexFilterLoader.FORMAT, matcher.toString(), attributePattern );
 	}

@@ -11,8 +11,12 @@ public class FilterAllAttributes implements Filter {
 	}
 
 	@Override
-	public boolean matches( final Element element,
-			final AttributeDifference attributeDifference ) {
+	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
+		return true;
+	}
+
+	@Override
+	public boolean matches( final AttributeDifference attributeDifference ) {
 		return true;
 	}
 

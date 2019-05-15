@@ -12,8 +12,13 @@ public class FilterOutline implements Filter {
 	}
 
 	@Override
-	public boolean matches( final Element element,
-			final AttributeDifference attributeDifference ) {
+	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
+		return OutlineAttribute.RELATIVE_OUTLINE.equalsIgnoreCase( attributeDifference.getKey() )
+				|| OutlineAttribute.ABSOLUTE_OUTLINE.equalsIgnoreCase( attributeDifference.getKey() );
+	}
+
+	@Override
+	public boolean matches( final AttributeDifference attributeDifference ) {
 		return OutlineAttribute.RELATIVE_OUTLINE.equalsIgnoreCase( attributeDifference.getKey() )
 				|| OutlineAttribute.ABSOLUTE_OUTLINE.equalsIgnoreCase( attributeDifference.getKey() );
 	}

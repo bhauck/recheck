@@ -36,6 +36,11 @@ public class GlobalIgnoreApplier implements Filter {
 		return any( filter -> filter.matches( element, difference ) );
 	}
 
+	@Override
+	public boolean matches( final AttributeDifference attributeDifference ) {
+		return any( filter -> filter.matches( attributeDifference ) );
+	}
+
 	public void ignoreAttribute( final Element element, final AttributeDifference difference ) {
 		add( new ElementAttributeFilter( new ElementXPathMatcher( element ), difference.getKey() ) );
 	}

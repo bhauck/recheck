@@ -46,6 +46,8 @@ public interface Filter {
 	 */
 	boolean matches( final Element element, AttributeDifference attributeDifference );
 
+	boolean matches( final AttributeDifference attributeDifference );
+
 	public static final Filter FILTER_NOTHING = new Filter() {
 
 		@Override
@@ -55,6 +57,11 @@ public interface Filter {
 
 		@Override
 		public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
+			return false;
+		}
+
+		@Override
+		public boolean matches( final AttributeDifference attributeDifference ) {
 			return false;
 		}
 	};

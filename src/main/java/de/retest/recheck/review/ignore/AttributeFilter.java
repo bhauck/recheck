@@ -22,8 +22,11 @@ public class AttributeFilter implements Filter {
 	}
 
 	@Override
-	public boolean matches( final Element element,
-			final AttributeDifference attributeDifference ) {
+	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
+		return attributeDifference.getKey().equals( attribute );
+	}
+	@Override
+	public boolean matches( final AttributeDifference attributeDifference ) {
 		return attributeDifference.getKey().equals( attribute );
 	}
 

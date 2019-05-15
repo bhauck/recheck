@@ -27,6 +27,11 @@ public class AttributeRegexFilter implements Filter {
 	}
 
 	@Override
+	public boolean matches( final AttributeDifference attributeDifference ) {
+		return attributePattern.matcher( attributeDifference.getKey() ).matches();
+	}
+
+	@Override
 	public String toString() {
 		return String.format( AttributeRegexFilterLoader.FORMAT, attributePattern.toString() );
 	}

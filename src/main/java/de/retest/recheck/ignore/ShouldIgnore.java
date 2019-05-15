@@ -77,5 +77,10 @@ public interface ShouldIgnore extends Filter {
 				final AttributeDifference attributeDifference ) {
 			return false;
 		}
+
+		@Override
+		public boolean matches( final AttributeDifference attributeDifference ) {
+			return false;
+		}
 	};
 }

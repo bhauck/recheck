@@ -33,4 +33,14 @@ public class CompoundFilter implements Filter {
 		return false;
 	}
 
+	@Override
+	public boolean matches( final AttributeDifference attributeDifference ) {
+		for ( final Filter filter : filters ) {
+			if ( filter.matches( attributeDifference ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
