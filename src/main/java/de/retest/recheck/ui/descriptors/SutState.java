@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.ui.review.ActionChangeSet;
 
@@ -75,6 +76,27 @@ public class SutState extends Persistable {
 		}
 		for ( final Element element : actionChangeSet.getInsertedChanges() ) {
 			if ( element instanceof RootElement ) {
+				descriptors.add( (RootElement) element );
+			}
+		}
+		return new SutState( descriptors );
+	}
+
+	public SutState applyChanges( final ActionChangeSet actionChangeSet, final Filter filter ) {
+		if ( actionChangeSet == null ) {
+			return this;
+		}
+		final List<RootElement> descriptors = new ArrayList<>();
+		for ( final RootElement rootElement : getRootElements() ) {
+			for ( final Element childElement : rootElement.getContainedElements() ) {
+				if ( !filter.matches( childElement ) ) {
+					descriptors.add( rootElement.applyChanges( actionChangeSet, filter ) );
+				}
+			}
+		}
+
+		for ( final Element element : actionChangeSet.getInsertedChanges() ) {
+			if ( element instanceof RootElement && !filter.matches( element ) ) {
 				descriptors.add( (RootElement) element );
 			}
 		}

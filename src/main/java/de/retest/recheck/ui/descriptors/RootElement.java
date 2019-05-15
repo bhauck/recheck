@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.ui.review.ActionChangeSet;
 
@@ -73,6 +74,27 @@ public class RootElement extends Element {
 
 		final Attributes newAttributes =
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
+
+		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
+
+		final RootElement rootElement =
+				new RootElement( retestId, newIdentAttributes, newAttributes, screenshot, screen, screenId, title );
+		rootElement.addChildren( newContainedElements );
+		return rootElement;
+	}
+
+	@Override
+	public RootElement applyChanges( final ActionChangeSet actionChangeSet, final Filter filter ) {
+		if ( actionChangeSet == null ) {
+			return this;
+		}
+
+		final IdentifyingAttributes newIdentAttributes;
+		newIdentAttributes = identifyingAttributes
+				.applyChanges( actionChangeSet.getIdentAttributeChanges().getAll( identifyingAttributes ), filter );
+
+		final Attributes newAttributes = attributes
+				.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ), filter );
 
 		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
 

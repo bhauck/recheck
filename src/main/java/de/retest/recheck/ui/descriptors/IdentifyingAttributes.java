@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.GloballyIgnoredAttributes;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.PathElement;
@@ -250,6 +251,22 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 			final Attribute attribute = attributes.get( key );
 			newAttributes.put( key, attributeDifference.applyChangeTo( attribute ) );
 		}
+
+		return newInstance( newAttributes.values() );
+	}
+
+	public IdentifyingAttributes applyChanges( final Set<AttributeDifference> attributeChanges, final Filter filter ) {
+		if ( attributeChanges.isEmpty() ) {
+			return this;
+		}
+		final HashMap<String, Attribute> newAttributes = new HashMap<>( attributes );
+		for ( final AttributeDifference attributeDifference : attributeChanges ) {
+			//if ( !filter.matches( attributeDifference ) ) {
+			final String key = attributeDifference.getKey();
+			final Attribute attribute = attributes.get( key );
+			newAttributes.put( key, attributeDifference.applyChangeTo( attribute ) );
+		}
+		//}
 
 		return newInstance( newAttributes.values() );
 	}

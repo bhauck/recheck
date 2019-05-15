@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.image.Screenshot;
 
@@ -126,6 +127,24 @@ public class Attributes implements Iterable<Map.Entry<String, Object>>, Serializ
 	}
 
 	public Attributes applyChanges( final Set<AttributeDifference> attributeChanges ) {
+		final MutableAttributes result = new MutableAttributes( this );
+		for ( final AttributeDifference attributeDifference : attributeChanges ) {
+			if ( Objects.equals( attributes.get( attributeDifference.getKey() ), attributeDifference.getExpected() ) ) {
+				if ( attributeDifference.getActual() == null ) {
+					result.attributes.remove( attributeDifference.getKey() );
+				} else {
+					result.attributes.put( attributeDifference.getKey(), attributeDifference.getActual() );
+				}
+				continue;
+			}
+			if ( attributeDifference.getKey().equals( Attributes.SCREENSHOT ) ) {
+				result.put( (Screenshot) attributeDifference.getActual() );
+			}
+		}
+		return result.immutable();
+	}
+
+	public Attributes applyChanges( final Set<AttributeDifference> attributeChanges, final Filter filter ) {
 		final MutableAttributes result = new MutableAttributes( this );
 		for ( final AttributeDifference attributeDifference : attributeChanges ) {
 			if ( Objects.equals( attributes.get( attributeDifference.getKey() ), attributeDifference.getExpected() ) ) {

@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.image.Screenshot;
@@ -97,6 +98,23 @@ public class Element implements Serializable, Comparable<Element> {
 
 		final Attributes newAttributes =
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
+		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
+
+		final Element element = Element.create( retestId, this, newIdentAttributes, newAttributes );
+		element.addChildren( newContainedElements );
+		return element;
+	}
+
+	public Element applyChanges( final ActionChangeSet actionChangeSet, final Filter filter ) {
+		if ( actionChangeSet == null ) {
+			return this;
+		}
+
+		final IdentifyingAttributes newIdentAttributes = identifyingAttributes
+				.applyChanges( actionChangeSet.getIdentAttributeChanges().getAll( identifyingAttributes ), filter );
+
+		final Attributes newAttributes = attributes
+				.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ), filter );
 		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
 
 		final Element element = Element.create( retestId, this, newIdentAttributes, newAttributes );
@@ -275,4 +293,5 @@ public class Element implements Serializable, Comparable<Element> {
 	public String toString() {
 		return identifyingAttributes.toString();
 	}
+
 }
