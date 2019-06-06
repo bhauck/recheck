@@ -60,6 +60,18 @@ public interface Recheck {
 	void capTest() throws AssertionError;
 
 	/**
+	 *
+	 *
+	 */
+	void startSuite( final String suiteName );
+
+	/**
+	 * AssertionError why?
+	 *
+	 */
+	void capSuite() throws AssertionError;
+
+	/**
 	 * Finishes recheck and persists the test report. Starting the review GUI is sensible.
 	 */
 	void cap();

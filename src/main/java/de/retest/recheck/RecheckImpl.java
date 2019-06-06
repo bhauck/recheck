@@ -105,6 +105,16 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	@Override
+	public void startSuite( final String suiteName ) {
+
+	}
+
+	@Override
+	public void capSuite() {
+
+	}
+
+	@Override
 	public void check( final Object toVerify, final String currentStep ) {
 		check( toVerify, RecheckAdapters.findAdapterFor( toVerify ), currentStep );
 	}
